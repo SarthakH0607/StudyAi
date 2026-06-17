@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyAI — AI-Powered Study Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app">
+  <header class="header">
+    <nav class="nav container">
+      <a href="#home" class="logo" aria-label="StudyAI home">
+        <span class="logo-icon" aria-hidden="true">◆</span>
+        StudyAI
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <ul class="nav-menu">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow--1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow--2" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <p class="hero-badge fade-in" data-animate>✨ Powered by AI</p>
+        <h1 class="hero-title fade-in" data-animate>Study Smarter with AI</h1>
+        <p class="hero-sub fade-in" data-animate>Boost your productivity with intelligent study tools designed for how you actually learn.</p>
+        <div class="hero-cta fade-in" data-animate>
+          <a href="#demo" class="btn btn-primary">Get Started</a>
+          <a href="#features" class="btn btn-ghost">Explore features</a>
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="hero-scroll-line"></span>
+      </div>
+    </section>
+
+    <section class="section features" id="features">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-eyebrow">Capabilities</p>
+          <h2 class="section-title">Everything you need to excel</h2>
+          <p class="section-desc">From notes to planning—one assistant that adapts to your goals.</p>
+        </header>
+        <div class="feature-grid">
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">📝</div>
+            <h3 class="feature-title">AI Notes Generator</h3>
+            <p class="feature-text">Turn lectures and readings into clear, structured notes in seconds.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">📅</div>
+            <h3 class="feature-title">Smart Study Planner</h3>
+            <p class="feature-text">Build balanced schedules that respect deadlines and your energy.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">📊</div>
+            <h3 class="feature-title">Progress Tracker</h3>
+            <p class="feature-text">Visualize streaks and milestones so motivation stays high.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">💬</div>
+            <h3 class="feature-title">Doubt Solver Chat</h3>
+            <p class="feature-text">Ask follow-up questions and get explanations that feel like a tutor.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section demo" id="demo">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-eyebrow">Live preview</p>
+          <h2 class="section-title">Try the demo</h2>
+          <p class="section-desc">See how StudyAI summarizes a topic—no sign-up required for this preview.</p>
+        </header>
+        <div class="demo-panel reveal">
+          <div class="demo-input-row">
+            <label class="sr-only" for="topic-input">Topic</label>
+            <input type="text" id="topic-input" class="demo-input" placeholder="Enter topic..." autocomplete="off" />
+            <button type="button" id="generate-btn" class="btn btn-primary demo-generate">Generate Notes</button>
+          </div>
+          <div class="demo-output-wrap">
+            <div id="demo-loading" class="demo-loading hidden" aria-live="polite">
+              <div class="demo-spinner" aria-hidden="true"></div>
+              <p>Generating your notes…</p>
+            </div>
+            <div id="demo-output" class="demo-output" role="region" aria-label="Generated notes">
+              <p class="demo-placeholder">Your AI-generated summary will appear here.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="container about-grid reveal">
+        <div class="about-visual">
+          <div class="about-placeholder" role="img" aria-label="Illustration placeholder">
+            <div class="about-placeholder-inner">
+              <span class="about-placeholder-icon">🎓</span>
+              <span class="about-placeholder-text">Your journey, amplified</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-copy">
+          <p class="section-eyebrow section-eyebrow--left">Why StudyAI</p>
+          <h2 class="section-title section-title--left">Built for focused students</h2>
+          <p class="about-text">
+            StudyAI helps you cut through noise: clearer notes, smarter plans, and instant help when you are stuck. We believe technology should reduce stress—not add another tab to manage.
+          </p>
+          <p class="about-text">
+            Whether you are preparing for exams or learning something new, our tools stay out of your way so you can stay in flow.
+          </p>
+          <ul class="about-list">
+            <li>Privacy-minded by design</li>
+            <li>Works alongside your favorite apps</li>
+            <li>Optimized for quick review sessions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-eyebrow">Contact</p>
+          <h2 class="section-title">Get in touch</h2>
+          <p class="section-desc">Questions or feedback? We would love to hear from you.</p>
+        </header>
+        <form class="contact-form reveal" id="contact-form" action="#" method="get" novalidate>
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" placeholder="How can we help?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Send message</button>
+          <p id="form-toast" class="form-toast hidden" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo logo--footer"><span class="logo-icon" aria-hidden="true">◆</span> StudyAI</span>
+        <p class="footer-tagline">Study smarter, not harder.</p>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+        <a href="#" class="social-link" aria-label="GitHub">GitHub</a>
+        <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> StudyAI. Demo landing page.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

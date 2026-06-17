@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --surface: 248 250 252;
+    --surface-elevated: 255 255 255;
+  }
+
+  .dark {
+    --surface: 15 15 25;
+    --surface-elevated: 22 22 36;
+  }
+
+  body {
+    @apply font-sans antialiased text-slate-800 dark:text-slate-100;
+    @apply bg-gradient-to-br from-slate-100 via-indigo-50/80 to-violet-100/90;
+    @apply dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/90;
+    min-height: 100dvh;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-white/40 dark:border-white/10;
+    @apply shadow-glass;
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply border-indigo-300/50 dark:border-violet-500/30 shadow-glow;
+  }
+
+  .page-transition {
+    animation: page-fade 0.35s ease-out both;
+  }
+
+  @keyframes page-fade {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
