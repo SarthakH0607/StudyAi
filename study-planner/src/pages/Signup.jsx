@@ -120,6 +120,13 @@ export default function Signup() {
                 "Sign up"
               )}
             </button>
+
+            <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
+              Already have an account?{" "}
+              <Link to="/login" className="font-semibold text-violet-600 hover:underline dark:text-violet-400">
+                Sign in
+              </Link>
+            </p>
           </form>
         </div>
       </div>
