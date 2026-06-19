@@ -46,9 +46,6 @@ export function AppShell({ children }) {
               <NavLink to="/doubt-solver" className={navClass}>
                 Doubt Solver
               </NavLink>
-              <NavLink to="/progress" className={navClass}>
-                Progress Tracker
-              </NavLink>
               <NavLink to="/settings" className={navClass}>
                 Settings
               </NavLink>
