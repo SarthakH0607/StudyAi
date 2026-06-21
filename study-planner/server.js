@@ -427,7 +427,33 @@ function generateMockSchedule(subjects, hoursPerDay, priority, standard, examDat
     scheduleMode = "prep";
   }
 
+  const todayIndex = (new Date().getDay() + 6) % 7;
+  let examDayIndex = -1;
+  if (examDate) {
+    examDayIndex = (new Date(examDate).getDay() + 6) % 7;
+  }
+
   const dailyPlan = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, dIdx) => {
+    // If the exam is within the current week (daysLeft < 7)
+    if (daysLeft >= 0 && daysLeft < 7) {
+      if (dIdx === examDayIndex) {
+        return {
+          day,
+          tasks: [
+            { title: "🎓 EXAM DAY! Good luck!", duration: "Full Day" }
+          ]
+        };
+      }
+      if (dIdx > examDayIndex) {
+        return {
+          day,
+          tasks: [
+            { title: "🎉 Free Day — Post-Exam Rest & Recovery", duration: "Enjoy your rest!" }
+          ]
+        };
+      }
+    }
+
     // Pick subjects sequentially
     const sIdx1 = dIdx % activeSubs.length;
     const sIdx2 = (dIdx + 1) % activeSubs.length;
@@ -442,31 +468,36 @@ function generateMockSchedule(subjects, hoursPerDay, priority, standard, examDat
     const topics1 = syllabus[key1] || ["Core Chapters", "Practice Sets"];
     const topics2 = syllabus[key2] || ["Core Chapters", "Practice Sets"];
 
-    const t1 = topics1[dIdx % topics1.length];
-    const t2 = topics2[(dIdx + 2) % topics2.length];
+    // Offset topic index dynamically by day index to avoid same-topic repeats
+    let t1 = topics1[(dIdx + sIdx1) % topics1.length];
+    let t2 = topics2[(dIdx + sIdx2 + 1) % topics2.length];
+    
+    if (t1 === t2 && topics2.length > 1) {
+      t2 = topics2[(dIdx + sIdx2 + 2) % topics2.length];
+    }
 
     if (scheduleMode === "cram") {
       return {
         day,
         tasks: [
-          { title: `${s1}: ${t1} — Formula Practice & Cheat Sheet Review`, duration: `${Math.round(hoursPerDay * 0.5 * 60)} min revision` },
-          { title: `${s2}: ${t2} — High-Yield Exam Questions & Self-Quiz`, duration: `${Math.round(hoursPerDay * 0.5 * 60)} min drill` }
+          { title: `${s1}: ${t1} — Cram & Formula Practice`, duration: `${Math.round(hoursPerDay * 0.5 * 60)} min revision` },
+          { title: `${s2}: ${t2} — High-Yield Exam Review`, duration: `${Math.round(hoursPerDay * 0.5 * 60)} min drill` }
         ]
       };
     } else if (scheduleMode === "prep") {
       return {
         day,
         tasks: [
-          { title: `${s1}: ${t1} — Past Board Exam Paper Practice`, duration: `${Math.round(hoursPerDay * 0.6 * 60)} min paper` },
-          { title: `${s2}: ${t2} — Exercises & Speed Drill Exercises`, duration: `${Math.round(hoursPerDay * 0.4 * 60)} min sprint` }
+          { title: `${s1}: ${t1} — Board Practice Questions`, duration: `${Math.round(hoursPerDay * 0.6 * 60)} min paper` },
+          { title: `${s2}: ${t2} — Speed Drill Practice`, duration: `${Math.round(hoursPerDay * 0.4 * 60)} min sprint` }
         ]
       };
     } else {
       return {
         day,
         tasks: [
-          { title: `${s1}: ${t1} — Deep Conceptual Learning & Lecture Notes`, duration: `${Math.round(hoursPerDay * 0.6 * 60)} min study` },
-          { title: `${s2}: ${t2} — Detailed Textbook Exercise Practice`, duration: `${Math.round(hoursPerDay * 0.4 * 60)} min exercises` }
+          { title: `${s1}: ${t1} — Deep Conceptual Study`, duration: `${Math.round(hoursPerDay * 0.6 * 60)} min study` },
+          { title: `${s2}: ${t2} — Textbook Exercise Review`, duration: `${Math.round(hoursPerDay * 0.4 * 60)} min exercises` }
         ]
       };
     }
@@ -784,22 +815,24 @@ Here is the official syllabus topics guidelines for this standard level:
 ${JSON.stringify(standardSyllabus)}
 
 Requirements:
-- Make sure to schedule tasks directly matching the topics specified in the syllabus guidelines for the selected subjects!
-- Balance subjects: allocate more time or earlier study days to difficult subjects.
-- Output a strict JSON object with this exact structure:
-{
-  "dailyPlan": [
-    { "day": "Mon", "tasks": [ { "title": "Subject — Specific Topic Name from Syllabus", "duration": "45 min" } ] }
-  ],
-  "weeklyPlan": "Summary of weekly goals and strategies suited for this standard level...",
-  "studyTargets": [
-    { "subject": "Subject Name", "target": "Specific milestone to achieve before the exam using syllabus topics" }
-  ],
-  "revisionSchedule": "Overview of when to revise and self-test..."
-}
+  - Note the relation between today's date and the exam date (${examDate}). If the exam date falls within the current week (Monday-Sunday), do NOT schedule regular study sessions for days after the exam. Instead, mark the tasks for the exam day as "🎓 EXAM DAY! Good luck!" and days after it as "🎉 Free Day — Post-Exam Rest & Recovery".
+  - Make sure to schedule tasks directly matching the topics specified in the syllabus guidelines for the selected subjects!
+  - Ensure that tasks on a single day schedule DIFFERENT topics (do not repeat the same topic on the same day).
+  - Balance subjects: allocate more time or earlier study days to difficult subjects.
+  - Output a strict JSON object with this exact structure:
+  {
+    "dailyPlan": [
+      { "day": "Mon", "tasks": [ { "title": "Subject — Specific Topic Name from Syllabus", "duration": "45 min" } ] }
+    ],
+    "weeklyPlan": "Summary of weekly goals and strategies suited for this standard level...",
+    "studyTargets": [
+      { "subject": "Subject Name", "target": "Specific milestone to achieve before the exam using syllabus topics" }
+    ],
+    "revisionSchedule": "Overview of when to revise and self-test..."
+  }
 
-Ensure the "dailyPlan" has exactly 7 entries mapping to Mon, Tue, Wed, Thu, Fri, Sat, Sun.
-Put 1 to 3 distinct tasks per day, each with a duration (e.g. "45 min block", "60 min block", "30 min sprint").`;
+  Ensure the "dailyPlan" has exactly 7 entries mapping to Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+  Put 1 to 3 distinct tasks per day, each with a duration (e.g. "45 min block", "60 min block", "30 min sprint").`;
 
   try {
     const jsonText = await callGemini([
