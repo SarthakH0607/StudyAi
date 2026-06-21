@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const QUESTION_TYPES = [
   { id: "general", label: "General Chat", icon: "💬" },
@@ -13,6 +13,7 @@ const QUESTION_TYPES = [
 ];
 
 export default function DoubtSolver() {
+  const location = useLocation();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [selectedType, setSelectedType] = useState("general");
@@ -76,6 +77,57 @@ export default function DoubtSolver() {
       }
     }
   };
+
+  // Handle auto-submit of quick question from Dashboard
+  useEffect(() => {
+    if (location.state?.initialQuestion) {
+      const q = location.state.initialQuestion;
+      const type = location.state.selectedType || "general";
+      setInput("");
+      setSelectedType(type);
+      
+      const triggerSubmit = async () => {
+        const userMessage = { role: "user", content: q };
+        const updatedMessages = [userMessage];
+        setMessages(updatedMessages);
+        setLoading(true);
+        setError(null);
+        recordWeakSubject(q);
+        
+        try {
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              messages: updatedMessages,
+              type: type,
+            }),
+          });
+          
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || `HTTP error ${res.status}`);
+          }
+          
+          const data = await res.json();
+          setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+          if (data.error) {
+            setError(`⚠️ Live API Fallback Active: ${data.error}. Running in Simulated AI Mode.`);
+          }
+        } catch (err) {
+          console.error(err);
+          setError(err.message || "Something went wrong. Please check settings or try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      triggerSubmit();
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
