@@ -20,6 +20,17 @@
   window.addEventListener("scroll", onScrollHeader, { passive: true });
   onScrollHeader();
 
+  // ----- Dynamic Mouse-Tracking Glow -----
+  var glowEl = document.querySelector(".cursor-glow");
+  if (glowEl) {
+    window.addEventListener("mousemove", function (e) {
+      window.requestAnimationFrame(function () {
+        glowEl.style.setProperty("--mouse-x", e.clientX + "px");
+        glowEl.style.setProperty("--mouse-y", e.clientY + "px");
+      });
+    });
+  }
+
   // ----- Mobile nav toggle -----
   var navToggle = document.querySelector(".nav-toggle");
   var navMenu = document.querySelector(".nav-menu");
@@ -124,23 +135,49 @@
   function buildDummyHtml(topic) {
     var safe =
       topic && topic.trim() ? escapeHtml(topic.trim()) : "your topic";
-    var parts = sampleNotes
-      .map(function (block) {
-        var lis = block.bullets
-          .map(function (b) {
-            return "<li>" + b + "</li>";
-          })
-          .join("");
-        return "<h4>" + block.title + "</h4><ul>" + lis + "</ul>";
-      })
-      .join("");
     return (
-      "<p><strong>Topic:</strong> " +
-      safe +
-      "</p>" +
-      "<p>Here is a structured preview of what StudyAI could generate for you:</p>" +
-      parts +
-      "<p style=\"margin-top:1rem;font-size:0.9rem;color:var(--text-muted);\">This is a demo response—connect a real model later for live answers.</p>"
+      "<div class=\"demo-note-wrapper\">" +
+        "<div class=\"demo-note-header\">" +
+          "<div class=\"demo-note-title\">📓 Topic Summary: <span style=\"color:#c4b5fd; font-weight:700;\">" + safe + "</span></div>" +
+          "<div class=\"demo-chip\">AI Generated</div>" +
+        "</div>" +
+        
+        "<div class=\"demo-note-section\">" +
+          "<h4 class=\"demo-section-title\">💡 Core Concepts & Definitions</h4>" +
+          "<ul class=\"demo-bullet-list\">" +
+            "<li><strong>Principal Components:</strong> Key ideas extracted dynamically from textbook corpus.</li>" +
+            "<li><strong>Intuitive Analogy:</strong> Simplifying the core theory so it can be explained in 1 minute.</li>" +
+            "<li><strong>Common Pitfall:</strong> Avoid mixing up standard interpretations with advanced corner cases.</li>" +
+          "</ul>" +
+        "</div>" +
+        
+        "<div class=\"demo-note-section\">" +
+          "<h4 class=\"demo-section-title\">📅 Custom 3-Day Study Schedule</h4>" +
+          "<ul class=\"demo-bullet-list\">" +
+            "<li><strong>Day 1 (Quick Scan):</strong> Review outline diagrams and formulate questions.</li>" +
+            "<li><strong>Day 2 (Summarize):</strong> Read core blocks and summarize in your own words.</li>" +
+            "<li><strong>Day 3 (Active Recall):</strong> Test yourself with interactive flashcards.</li>" +
+          "</ul>" +
+        "</div>" +
+
+        "<div class=\"demo-note-section\">" +
+          "<h4 class=\"demo-section-title\">💻 Code Blueprint & Key Formulas</h4>" +
+          "<div class=\"demo-code-card\">" +
+            "<div class=\"demo-code-header\">" +
+              "<div class=\"demo-code-dot-group\">" +
+                "<div class=\"demo-code-dot\"></div>" +
+                "<div class=\"demo-code-dot\"></div>" +
+                "<div class=\"demo-code-dot\"></div>" +
+              "</div>" +
+              "<div class=\"demo-code-lang\">python</div>" +
+            "</div>" +
+            "<pre class=\"demo-code-body\"><span class=\"demo-code-keyword\">def</span> <span class=\"demo-code-highlight\">explain_concept</span>(topic=<span class=\"demo-code-highlight\">\"" + safe + "\"</span>):" + "\n" +
+"    <span class=\"demo-code-comment\"># AI-Powered interactive synthesis model</span>" + "\n" +
+"    summary = generate_summary(topic)" + "\n" +
+"    <span class=\"demo-code-keyword\">return</span> f<span class=\"demo-code-highlight\">\"StudyAI: {summary['key_points']}\"</span></pre>" +
+          "</div>" +
+        "</div>" +
+      "</div>"
     );
   }
 
