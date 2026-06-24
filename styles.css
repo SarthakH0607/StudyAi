@@ -92,13 +92,14 @@ body,
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 9998;
   background: radial-gradient(
     600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(139, 92, 246, 0.06),
+    rgba(139, 92, 246, 0.15),
     transparent 45%
   );
   transition: opacity 0.3s ease;
+  mix-blend-mode: screen;
 }
 
 /* Subtle grain + vignette for depth */
