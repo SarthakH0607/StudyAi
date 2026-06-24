@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { DistractionAlert } from "../components/DistractionAlert.jsx";
 import { FloatingAssistant } from "../components/FloatingAssistant.jsx";
 import { FocusMonitor } from "../components/FocusMonitor.jsx";
-import { AnalyticsPanel } from "../components/AnalyticsPanel.jsx";
 import { RescheduleToast } from "../components/RescheduleToast.jsx";
 import { NotesPanelModal, ResourceModal } from "../components/ResourceModal.jsx";
 import { SmartCalendar } from "../components/SmartCalendar.jsx";
@@ -22,7 +21,6 @@ export default function PlannerPage() {
     streak,
     suggestionIndex,
     setSuggestionIndex,
-    weeklyFocus,
     bumpWeeklyFocusHours,
     hydrated,
   } = useUserData();
@@ -181,10 +179,6 @@ export default function PlannerPage() {
     }));
   }, [tasks]);
 
-  const completedCount = tasks.filter((t) => t.progress >= 100).length;
-  const missedCount = tasks.filter((t) => t.missed).length;
-  const avgProgress = tasks.reduce((a, t) => a + t.progress, 0) / (tasks.length || 1);
-  const focusScore = Math.max(0, Math.min(100, Math.round(52 + avgProgress * 0.38 - missedCount * 9)));
 
   const onProgressChange = (id, progress) => {
     setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, progress } : t)));
@@ -511,12 +505,7 @@ export default function PlannerPage() {
             </div>
           )}
 
-          <AnalyticsPanel
-            focusScore={focusScore}
-            completed={completedCount}
-            missed={missedCount}
-            weeklyFocus={weeklyFocus}
-          />
+
         </div>
       </div>
 

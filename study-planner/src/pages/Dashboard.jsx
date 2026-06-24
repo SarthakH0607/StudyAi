@@ -318,13 +318,6 @@ export default function Dashboard() {
               <span>📄 Notes & Flashcards Generator</span>
               <span>→</span>
             </Link>
-            <Link
-              to="/analytics"
-              className="flex items-center justify-between rounded-xl border border-slate-200/50 bg-slate-50/50 px-4 py-3 text-xs font-semibold text-slate-755 hover:border-violet-500/30 hover:bg-slate-100/50 dark:border-white/5 dark:bg-slate-900/40 dark:text-slate-300 dark:hover:bg-slate-800/40"
-            >
-              <span>📊 Detailed Study Analytics</span>
-              <span>→</span>
-            </Link>
           </div>
         </div>
       </div>
